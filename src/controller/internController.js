@@ -59,15 +59,15 @@ const createIntern = async function (req, res) {
 
 const getCollegeWithInterns = async function (req, res) {
     try {
-        const collegeName = req.query.name
-        if (!isValid(collegeName)) return res.status(400).send({
+        const collegeNameByUser = req.query.collegeName
+        if (!isValid(collegeNameByUser)) return res.status(400).send({
             status: false,
             message: "College name is required!"
         })
 
         const output = {};
         const collegeData = await collegeModel.findOne({
-            name: collegeName,
+            name: collegeNameByUser,
             isDeleted: false
         })
 
