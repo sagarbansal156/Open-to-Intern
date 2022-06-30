@@ -43,6 +43,7 @@ const createIntern = async function (req, res) {
         output.email = data.email
         output.mobile = data.mobile
         output.collegeId = collegeIdByName._id
+
         let internCreated = await internModel.create(output)
         res.status(201).send({
             status: true,

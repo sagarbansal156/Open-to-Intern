@@ -10,6 +10,10 @@ const createCollege = async function(req,res){
      if(!validatename(data.name)){
         return res.status(400).send({status :false, msg :"Please enter the name of the college english alphabet lower case only"})
     }
+    const checkName = await collegeModel.findOne({ name: data.name })
+        if (checkName) {
+            return res.status(409).send({ status: false, msg: "name is already used" })
+        }
      if(!isValid(data.fullName)){
          return res.status(400).send({status:false, msg:"Please enter the fullname of the college"})
      }
