@@ -13,7 +13,7 @@ const createIntern = async function (req, res) {
             return res.status(400).send("Please enter the name of the intern in english alphabet only")
         }
         if (!isValid(data.email)) {
-            return res.status(400).send("Please enter the email of the college")
+            return res.status(400).send("Please enter the email of the intern")
         }
         if (!validateEmail(data.email)) {
             return res.status(400).send({ status: false, msg: "email is not correct" })
@@ -33,7 +33,7 @@ const createIntern = async function (req, res) {
             return res.status(409).send({ status: false, msg: "Mobile No. is already used" })
         }
         if (!isValid(data.collegeName)) {
-            return res.status(400).send("Please put the collegeId of the intern")
+            return res.status(400).send("Please put the college name of the intern")
         }
         let collegeIdByName = await collegeModel.findOne({ name: data.collegeName })
         if (!isValid(collegeIdByName)) {
@@ -54,6 +54,9 @@ const createIntern = async function (req, res) {
         res.status(500).send({ status: false, msg: err.message })
     }
 }
+
+
+
 const getCollegeWithInterns = async function (req, res) {
     try {
         const collegeName = req.query.name
@@ -63,7 +66,6 @@ const getCollegeWithInterns = async function (req, res) {
         })
 
         const output = {};
-
         const collegeData = await collegeModel.findOne({
             name: collegeName,
             isDeleted: false
@@ -73,7 +75,6 @@ const getCollegeWithInterns = async function (req, res) {
             status: false,
             message: `College name related to '${collegeName}'  do not exist!`
         })
-
 
         const internsList = await internModel.find({
             collegeId: collegeData._id,
