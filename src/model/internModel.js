@@ -4,12 +4,12 @@ const internSchema = new mongoose.Schema(
     {
         name: {
             type: String,
-            require: [true, "Name is required"],
+            require: true,
             trim: true,
         },
         email: {
             type: String,
-            required: [true, "email is required"],
+            required: true, 
             lowercase: true,
             trim: true,
             unique: true,
@@ -25,6 +25,5 @@ const internSchema = new mongoose.Schema(
         },
         isDeleted: { type: Boolean, default: false }
     },
-    { timestamps: true }
 )
 module.exports = mongoose.model("Intern", internSchema)

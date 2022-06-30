@@ -4,6 +4,7 @@ const { validateEmail, isValid, validateMobile } = require("../validator/validat
 
 const createIntern = async function (req, res) {
     try {
+        let output ={}
         let data = req.body
         if (!isValid(data.name)) {
             return res.status(400).send("Please enter the name of the intern")
@@ -28,14 +29,18 @@ const createIntern = async function (req, res) {
         if (checkMobile) {
             return res.status(400).send({ status: false, msg: "Mobile No. is already used" })
         }
-        if (!isValid(data.collegeId)) {
+        if (!isValid(data.collegeName)) {
             return res.status(400).send("Please put the collegeId of the intern")
         }
-        let collegeIdByUser = await collegeModel.findOne({ _id: data.collegeId })
+        let collegeIdByUser = await collegeModel.findOne({ name: data.collegeName })
         if (collegeIdByUser == null) {
             return res.status(400).send({ status: false, msg: "No College found with the given CollegeId" })
         }
-        let internCreated = await internModel.create(data)
+               output.name=data.name
+               output.email=data.email
+               output.mobile=data.mobile
+               output.collegeId=collegeIdByUser._id
+        let internCreated = await internModel.create(output)
         res.status(201).send({
             status: true,
             data: internCreated
