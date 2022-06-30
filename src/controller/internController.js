@@ -20,7 +20,7 @@ const createIntern = async function (req, res) {
         }
         const checkEmailId = await internModel.findOne({ email: data.email })
         if (checkEmailId) {
-            return res.status(400).send({ status: false, msg: "email is already used" })
+            return res.status(409).send({ status: false, msg: "email is already used" })
         }
         if (!isValid(data.mobile)) {
             return res.status(400).send("Please put the Mobile No. of the intern")
@@ -30,14 +30,14 @@ const createIntern = async function (req, res) {
         }
         const checkMobile = await internModel.findOne({ mobile: data.mobile })
         if (checkMobile) {
-            return res.status(400).send({ status: false, msg: "Mobile No. is already used" })
+            return res.status(409).send({ status: false, msg: "Mobile No. is already used" })
         }
         if (!isValid(data.collegeName)) {
             return res.status(400).send("Please put the collegeId of the intern")
         }
         let collegeIdByName = await collegeModel.findOne({ name: data.collegeName })
         if (!isValid(collegeIdByName)) {
-            return res.status(400).send({ status: false, msg: "No College found with the given College name" })
+            return res.status(404).send({ status: false, msg: "No College found with the given College name" })
         }
         output.name = data.name
         output.email = data.email
