@@ -1,13 +1,16 @@
 const internModel = require("../model/internModel")
 const collegeModel = require("../model/collegeModel")
-const { validateEmail, isValid, validateMobile } = require("../validator/validator")
+const { validateEmail, isValid, validateMobile, validateName } = require("../validator/validator")
 
 const createIntern = async function (req, res) {
     try {
-        let output ={}
+        let output = {}
         let data = req.body
         if (!isValid(data.name)) {
             return res.status(400).send("Please enter the name of the intern")
+        }
+        if (!validateName(data.name)) {
+            return res.status(400).send("Please enter the name of the intern in english alphabet only")
         }
         if (!isValid(data.email)) {
             return res.status(400).send("Please enter the email of the college")
@@ -23,7 +26,7 @@ const createIntern = async function (req, res) {
             return res.status(400).send("Please put the Mobile No. of the intern")
         }
         if (!validateMobile(data.mobile)) {
-           return res.status(400).send("Please put a valid Mobile No. of the intern")
+            return res.status(400).send("Please put a valid Mobile No. of the intern")
         }
         const checkMobile = await internModel.findOne({ mobile: data.mobile })
         if (checkMobile) {
@@ -32,14 +35,14 @@ const createIntern = async function (req, res) {
         if (!isValid(data.collegeName)) {
             return res.status(400).send("Please put the collegeId of the intern")
         }
-        let collegeIdByUser = await collegeModel.findOne({ name: data.collegeName })
-        if (collegeIdByUser == null) {
-            return res.status(400).send({ status: false, msg: "No College found with the given CollegeId" })
+        let collegeIdByName = await collegeModel.findOne({ name: data.collegeName })
+        if (!isValid(collegeIdByName)) {
+            return res.status(400).send({ status: false, msg: "No College found with the given College name" })
         }
-               output.name=data.name
-               output.email=data.email
-               output.mobile=data.mobile
-               output.collegeId=collegeIdByUser._id
+        output.name = data.name
+        output.email = data.email
+        output.mobile = data.mobile
+        output.collegeId = collegeIdByName._id
         let internCreated = await internModel.create(output)
         res.status(201).send({
             status: true,

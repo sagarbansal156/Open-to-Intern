@@ -17,13 +17,16 @@ const validateEmail = (email) => {
           .match(/^[6-9]\d{9}$/)
   }
   
-const validateName =(name)=>{
+const validatename =(name)=>{
   return String(name)
        .match(/^[a-z\s]{1,}[\.]{0,1}[a-z\s]{0,}$/)
 }
 
-
+const validateName =(name)=>{
+  return String(name)
+       .match(/^[A-Za-z\s]{1,}[\.,]{0,1}[A-Za-z\s]{0,}$/)
+}
 
 
  
-  module.exports={validateEmail,isValid,validateMobile,validateName}
+  module.exports={validateEmail,isValid,validateMobile,validateName,validatename}
