@@ -75,7 +75,7 @@ const getCollegeWithInterns = async function (req, res) {
             isDeleted: false
         })
 
-        if (!collegeData) return res.status(404).send({
+        if (!isValid(collegeData)) return res.status(404).send({
             status: false,
             message: `College name related to '${collegeName}'  do not exist!`
         })
