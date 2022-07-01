@@ -6,6 +6,9 @@ const createIntern = async function (req, res) {
     try {
         let output = {}
         let data = req.body
+        if (!isValid(data)) {
+            return res.status(400).send({ status: false, msg: "Please enter the data of the intern" })
+        }
         if (!isValid(data.name)) {
             return res.status(400).send({ status: false, msg: "Please enter the name of the intern" })
         }
@@ -26,7 +29,7 @@ const createIntern = async function (req, res) {
             return res.status(400).send({ status: false, msg: "Please put the Mobile No. of the intern" })
         }
         if (!validateMobile(data.mobile)) {
-            return res.status(400).send({ status: false,msg: "Please put a valid Mobile No. of the intern"})
+            return res.status(400).send({ status: false, msg: "Please put a valid Mobile No. of the intern" })
         }
         const checkMobile = await internModel.findOne({ mobile: data.mobile })
         if (checkMobile) {

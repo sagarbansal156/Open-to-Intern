@@ -4,6 +4,9 @@ const {isValid, validateName,validatename}=require("../validator/validator")
 const createCollege = async function(req,res){
    try{
      let data = req.body
+     if (!isValid(data)) {
+        return res.status(400).send({ status: false, msg: "Please enter the data of the college" })
+    }
      if(!isValid(data.name)){
          return res.status(400).send({status :false, msg :"Please enter the name of the college"})
      }
