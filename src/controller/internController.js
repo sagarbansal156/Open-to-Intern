@@ -95,18 +95,12 @@ const getCollegeWithInterns = async function (req, res) {
         output.logoLink = collegeData.logoLink
         output.interns = internsList
 
-        res.status(200).send({
-            status: true,
-            data: output
-        })
-
+        res.status(200).send({status: true, data: output})
     }
     catch (error) {
-
         res.status(500).send({
             status: true,
-            data: error.message
-        })
+            data: error.message})
     }
 }
 

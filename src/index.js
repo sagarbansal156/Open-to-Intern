@@ -9,7 +9,7 @@ app.use(express.json());
 mongoose.connect("mongodb+srv://SagarBansal:HmMiUeU0MyktjG49@cluster0.3yhyk.mongodb.net/Group59Database?retryWrites=true&w=majority")
     
 .then(() => console.log("MongoDb is connected"))
-    .catch(err => console.log(err))
+.catch(err => console.log(err))
 
 
 app.use('/', route)
